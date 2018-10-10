@@ -51,7 +51,7 @@ The system should include the following modules
 	set\textunderscore timeout\textunderscore timer & Counts to 10 seconds, after which it will notify the main so that the set state can be exited \\ \hline
 	open\textunderscore timeout\textunderscore timer & Counts to 15 seconds, after which it will notify the main to lock the system \\ \hline
 	display\textunderscore timeout\textunderscore timer & Counts to 5 seconds, after which it will notify the display-controller so that the display will be cleared \\ \hline
-	clock\textunderscore divider & Divides the clock signal to 0.25 seconds for the input module to prevent accidental double keystrokes \\ \hline
+	clock\textunderscore divider & Divides the clock signal to 4 Hz for the input module to prevent accidental double keystrokes \\ \hline
 	input\textunderscore controller & Interprets the keystrokes from the USB keypad and passes the appropriate command to the main\\ \hline
 	output\textunderscore controller & Interprets the command from main and displays the appropriate message on the 7-segment display and LED \\ \hline
 \end{tabular}
