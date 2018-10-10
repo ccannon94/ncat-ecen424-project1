@@ -1,0 +1,50 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{graphicx}
+\graphicspath{report_images/}
+\usepackage{appendix}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{amsthm}
+% The next three lines make the table and figure numbers also include section number
+\usepackage{chngcntr}
+\counterwithin{table}{section}
+\counterwithin{figure}{section}
+% Needed to make titling page without a page number
+\usepackage{titling}
+
+% DOCUMENT INFORMATION =================================================
+\font\titleFont=cmr12 at 11pt
+\title {{\titleFont ECEN 424: Advanced Digital Design\\ North Carolina Agricultural and Technical State University \\ Department of Electrical and Computer Engineering}} % Declare Title
+\author{\titleFont Prepared by: Chris Cannon} % Declare authors
+\date{\titleFont 2018-10-10}
+% ======================================================================
+
+\begin{document}
+
+\begin{titlingpage}
+\maketitle
+\begin{center}
+	Project 1 Specification \\ Rev. 0.1.0
+\end{center}
+\end{titlingpage}
+
+\section{System Overview}
+This system will be a VHDL-based digital clock that must be implemented on the Digilent Basys3 FPGA. The lock will take a 6-digit code, entered via a keypad.
+
+
+
+\pagebreak
+
+\textbf{Appendices}
+
+\begin{appendices}
+
+
+
+\end{appendices}
+\end{document}
