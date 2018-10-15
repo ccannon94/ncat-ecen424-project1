@@ -47,7 +47,7 @@ The system should include the following modules
 	\hline
 	Module & Description \\ \hline
 	main & Main finite state machine and top-level module. \\ \hline
-	code\textunderscore timeout\textunderscore timer & Counts to a minute, after which it will notify the main so that the code can be cleared. \\ \hline
+	code\textunderscore timeout\textunderscore timer & Counts to 20 seconds, after which it will notify the main so that the code can be cleared. \\ \hline
 	set\textunderscore timeout\textunderscore timer & Counts to 10 seconds, after which it will notify the main so that the set state can be exited \\ \hline
 	open\textunderscore timeout\textunderscore timer & Counts to 15 seconds, after which it will notify the main to lock the system \\ \hline
 	display\textunderscore timeout\textunderscore timer & Counts to 5 seconds, after which it will notify the display-controller so that the display will be cleared \\ \hline
@@ -275,7 +275,7 @@ If the user enters more or less than 6 digits, or any non-numeric characters, th
 
 \subsection{Unlocking the Lock}
 
-The keypad will be read every 0.25 seconds. The user should enter 6 numeric characters. As each character is entered,  it will be displayed on the least significant 7-segment display. After 6 characters are read, the system will display "OPEN" on the 7-segment displays if the correct code was entered, and "err" if it was not.
+The keypad will be read every 0.25 seconds. The user should enter 6 numeric characters. As each character is entered,  it will be displayed on the least significant 7-segment display. After 6 characters are read, the system will display "0000" on the 7-segment displays if the correct code was entered, and "Err" if it was not.
 
 The lock will remain unlocked for 15 seconds, and then the message will disappear and the system will be locked.
 
@@ -293,7 +293,7 @@ All messages on the 7-segment display, except for the "OPEN" message, will disap
 
 \subsection{Code Input Timeout}
 
-If less then 6 digits are entered, they will be cleared after 1 minute of no input from the user.
+If less then 6 digits are entered, they will be cleared after 20 seconds of no input from the user.
 
 \subsection{Lockdown Mode}
 
