@@ -29,12 +29,12 @@
 \begin{titlingpage}
 \maketitle
 \begin{center}
-	Project 1 Specification \\ Rev. 0.1.1
+	Project 1 Specification \\ Rev. 0.2.0
 \end{center}
 \end{titlingpage}
 
 \section{System Overview}
-This system will be a VHDL-based digital clock that must be implemented on the Digilent Basys3 FPGA. The lock will take a 6-digit code, entered via a standard USB numeric keypad. The code must be re-programmable. The system must notify a user of an incorrect password and must lock permanently after 3 incorrect attempts.
+This system will be a VHDL-based digital lock that must be implemented on the Digilent Basys3 FPGA. The lock will take a 6-digit code, entered via a standard USB numeric keyboard. The code must be re-programmable. The system must notify a user of an incorrect password and must lock permanently after 3 incorrect attempts.
 
 \section{Modules}
 
@@ -47,17 +47,21 @@ The system should include the following modules
 	\hline
 	Module & Description \\ \hline
 	main & Main finite state machine and top-level module. \\ \hline
-	code\textunderscore timeout\textunderscore timer & Counts to a minute, after which it will notify the main so that the code can be cleared. \\ \hline
+	code\textunderscore timeout\textunderscore timer & Counts to 20 seconds, after which it will notify the main so that the code can be cleared. \\ \hline
 	set\textunderscore timeout\textunderscore timer & Counts to 10 seconds, after which it will notify the main so that the set state can be exited \\ \hline
 	open\textunderscore timeout\textunderscore timer & Counts to 15 seconds, after which it will notify the main to lock the system \\ \hline
 	display\textunderscore timeout\textunderscore timer & Counts to 5 seconds, after which it will notify the display-controller so that the display will be cleared \\ \hline
 	clock\textunderscore divider & Divides the clock signal to 4 Hz for the input module to prevent accidental double keystrokes \\ \hline
-	input\textunderscore controller & Interprets the keystrokes from the USB keypad and passes the appropriate command to the main\\ \hline
+	input\textunderscore controller & Interprets the keystrokes from the USB keyboard and passes the appropriate command to the main\\ \hline
 	output\textunderscore controller & Interprets the command from main and displays the appropriate message on the 7-segment display and LED \\ \hline
 \end{tabular}
 \end{table}
 
 \subsection{main}
+
+\subsection{Overview}
+
+The main module is the finite state machine that is the top-level component of the system.
 
 \subsubsection{Inputs}
 
@@ -257,11 +261,19 @@ The system should include the following modules
 \end{tabular}
 \end{table}
 
-\subsection{Block 0 Diagram}
+\subsection{System Diagrams}
 
 \begin{figure}[H]
 \begin{center}
 	\includegraphics[width=\textwidth]{./images/level0.png}
+	\caption{\label{fig:level0}Level 0 System Diagram}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+	\includegraphics[width=\textwidth]{./images/level1.png}
+	\caption{\label{fig:level1}Level 1 System Diagram}
 \end{center}
 \end{figure}
 
@@ -275,7 +287,7 @@ If the user enters more or less than 6 digits, or any non-numeric characters, th
 
 \subsection{Unlocking the Lock}
 
-The keypad will be read every 0.25 seconds. The user should enter 6 numeric characters. As each character is entered,  it will be displayed on the least significant 7-segment display. After 6 characters are read, the system will display "OPEN" on the 7-segment displays if the correct code was entered, and "err" if it was not.
+The keypad will be read every 0.25 seconds. The user should enter 6 numeric characters. As each character is entered,  it will be displayed on the least significant 7-segment display. After 6 characters are read, the system will display "0000" on the 7-segment displays if the correct code was entered, and "Err" if it was not.
 
 The lock will remain unlocked for 15 seconds, and then the message will disappear and the system will be locked.
 
@@ -293,7 +305,7 @@ All messages on the 7-segment display, except for the "OPEN" message, will disap
 
 \subsection{Code Input Timeout}
 
-If less then 6 digits are entered, they will be cleared after 1 minute of no input from the user.
+If less then 6 digits are entered, they will be cleared after 20 seconds of no input from the user.
 
 \subsection{Lockdown Mode}
 
@@ -305,13 +317,25 @@ The following schedule is an estimated timeline for completion of the digital lo
 
 \begin{itemize}
 	\item 2018-10-10 Submit specification rev 0.1.0
-	\item 2018-10-17 Complete and submit output controller with tests
-	\item 2018-10-17 Submit specification rev. 1.0.0
+	\item 2018-10-17 Complete specification rev. 0.2.0
+	\begin{itemize}
+		\item Submit block diagram and timeline revisions
+	\end{itemize}
+	\item 2018-10-17 Complete output controller with tests
+	\begin{itemize}
+		\item Submit output controller as major component
+	\end{itemize}
 	\item 2018-10-19 Complete input controller with tests
 	\item 2018-10-20 Complete clock divider with tests
 	\item 2018-10-22 Complete timer components with tests
+	\begin{itemize}
+		\item Submit input controller, clock divider, code timer, open timer, and display timer components
+	\end{itemize}
 	\item 2018-10-24 Complete main component with tests
-	\item 2018-10-28 Submit components with tests
+	\item 2018-10-29 Complete output controller component with tests
+	\begin{itemize}
+		\item Submit main component and output controller components with tests
+	\end{itemize}
 	\item 2018-10-31 Complete final revisions of system
 	\item 2018-11-02 Draft presentation and report
 	\item 2018-11-05 Submit and present final report and presentation
