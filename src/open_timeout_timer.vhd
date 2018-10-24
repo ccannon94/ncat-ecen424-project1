@@ -17,7 +17,7 @@ begin
       done <= '0';
     elsif(clk'event and clk = '1' and enable = '1') then
       time := time + 1;
-      if(time >= 25000000) then
+      if(time >= 75000000) then
         done <= '1';
       end if;
     end if;
