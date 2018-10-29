@@ -33,7 +33,7 @@ begin
     tb_reset <= test_in(0);
 
     test_in := B"10";
-    wait for 20000 ms;
+    wait for 10000 ms;
     if('1' /= tb_done) then
       report "Error: Expected timer done. Actual done = " & std_logic'image(tb_done);
       error_count := error_count + 1;
