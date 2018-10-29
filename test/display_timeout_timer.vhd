@@ -2,21 +2,21 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity code_timeout_timer_tb is
-end entity code_timeout_timer_tb;
+entity display_timeout_timer_tb is
+end entity display_timeout_timer_tb;
 
-architecture code_timeout_timer_tb_arch of code_timeout_timer_tb is
+architecture display_timeout_timer_tb_arch of display_timeout_timer_tb is
 
-  component code_timeout_timer is
+  component display_timeout_timer is
     port(
       enable, reset, clk : in std_logic; done : out std_logic);
-  end component code_timeout_timer;
+  end component display_timeout_timer;
 
   signal tb_enable, tb_reset, tb_clk, tb_done : std_logic := '0';
   constant clk_period : time := 20ns;
 
 begin
-  uut : code_timeout_timer port map(tb_enable, tb_reset, tb_clk, tb_done);
+  uut : display_timeout_timer port map(tb_enable, tb_reset, tb_clk, tb_done);
   clk_process : process
   begin
     tb_clk <= '0';
@@ -33,7 +33,7 @@ begin
     tb_reset <= test_in(0);
 
     test_in := B"10";
-    wait for 20000 ms;
+    wait for 2000 ms;
     if('1' /= tb_done) then
       report "Error: Expected timer done. Actual done = " & std_logic'image(tb_done);
       error_count := error_count + 1;
