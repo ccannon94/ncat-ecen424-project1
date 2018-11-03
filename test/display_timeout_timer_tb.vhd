@@ -5,7 +5,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity display_timeout_timer_tb is
 end entity display_timeout_timer_tb;
 
-architecture display_timeout_timer_tb_arch of code_timeout_timer_tb is
+architecture display_timeout_timer_tb_arch of display_timeout_timer_tb is
 
   component display_timeout_timer is
     port(
