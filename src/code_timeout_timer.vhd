@@ -19,7 +19,7 @@ begin
 	    current_count <= "00000";
 	    done <= '0';
         elsif(one_hz_clk'event and one_hz_clk = '1' and enable = '1') then
-            if(current_count <= "10100") then
+            if(current_count < "10100") then
                 current_count <= std_logic_vector(unsigned(current_count) + 1);
                 done <= '0';
             else
