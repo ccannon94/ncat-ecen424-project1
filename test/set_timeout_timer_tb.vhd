@@ -33,12 +33,13 @@ begin
     wait for 5 ns;
     tb_enable <= '1';
     tb_reset <= '0';
-    wait for 150 ns;
+    wait for 105 ns;
     if('1' /= tb_done) then
       report "Error: Expected timer done. Actual done = " & std_logic'image(tb_done);
       error_count := error_count + 1;
     end if;
 
+    wait for 5 ns;
     tb_enable <= '0';
     tb_reset <= '1';
     wait for 5 ns;
