@@ -9,10 +9,13 @@ entity main is
     cmd : in std_logic_vector(3 downto 0);
     code_timeout, set_timeout, open_timeout, display_timeout : in std_logic;
     enable_code, reset_code, enable_set, reset_set, enable_open, reset_open, enable_display, reset_display : out std_logic;
+    lockout_led : out std_logic;
     -- values for display_cmd
-    -- 0001 : '0000'
-    -- 0010 : 'Clr'
-    -- 0100 : "Err"
+    -- 0 - 9 : value of BCD
+    -- 1010 : '0000'
+    -- 1011 : 'Clr'
+    -- 1100 : "Err"
+    -- 1111 : display off
     display_cmd : out std_logic_vector(3 downto 0));
 end entity main;
 
@@ -335,7 +338,236 @@ begin
   end process;
   process(current_state)
   begin
-
+    case(current_state) is
+      when s0 =>
+        display_cmd <= "1111";
+        lockout_led <= '0';
+      when s1 =>
+        display_cmd <= "1111";
+        lockout_led <= '0';
+      when s1a =>
+        display_cmd <= "1111";
+        reset_set <= '1';
+        enable_set <= '1';
+      when s1b =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s1c =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s1d =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s1e =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s1f =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s1g =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s1h =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s1i =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s1j =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s1k =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s1l =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s1m =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s1n =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s1o =>
+        enable_set <= '0';
+        reset_display <= '1';
+        enable_display <= '1';
+        display_cmd <= "1011";
+      when s1p =>
+        reset_display <= '0';
+        enable_display <= '1';
+        display_cmd <= "1011";
+      when s2 =>
+        enable_set <= '0';
+        enable_open <= '0';
+        enable_display <= '0';
+        display_cmd <= "1111";
+        lockout_led <= '0';
+      when s2a =>
+        reset_code <= '1';
+        enable_code <= '1';
+        reset_display <= '1';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s2b =>
+        reset_code <= '0';
+        enable_code <= '1';
+        reset_display <= '0';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s2c =>
+        reset_code <= '0';
+        enable_code <= '1';
+        reset_display <= '0';
+        enable_display <= '0';
+        display_cmd <= cmd;
+      when s2d =>
+        reset_code <= '1';
+        enable_code <= '1';
+        reset_display <= '1';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s2e =>
+        reset_code <= '0';
+        enable_code <= '1';
+        reset_display <= '0';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s2f =>
+        reset_code <= '0';
+        enable_code <= '1';
+        reset_display <= '0';
+        enable_display <= '0';
+        display_cmd <= cmd;
+      when s2g =>
+        reset_code <= '1';
+        enable_code <= '1';
+        reset_display <= '1';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s2h =>
+        reset_code <= '0';
+        enable_code <= '1';
+        reset_display <= '0';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s2i =>
+        reset_code <= '0';
+        enable_code <= '1';
+        reset_display <= '0';
+        enable_display <= '0';
+        display_cmd <= cmd;
+      when s2j =>
+        reset_code <= '1';
+        enable_code <= '1';
+        reset_display <= '1';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s2k =>
+        reset_code <= '0';
+        enable_code <= '1';
+        reset_display <= '0';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s2l =>
+        reset_code <= '0';
+        enable_code <= '1';
+        reset_display <= '0';
+        enable_display <= '0';
+        display_cmd <= cmd;
+      when s2m =>
+        reset_code <= '1';
+        enable_code <= '1';
+        reset_display <= '1';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s2n =>
+        reset_code <= '0';
+        enable_code <= '1';
+        reset_display <= '0';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s2o =>
+        reset_code <= '0';
+        enable_code <= '1';
+        reset_display <= '0';
+        enable_display <= '0';
+        display_cmd <= cmd;
+      when s2p =>
+        reset_code <= '0';
+        enable_code <= '0';
+        reset_display <= '1';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s2q =>
+        reset_display <= '0';
+        enable_display <= '1';
+        display_cmd <= cmd;
+      when s3 =>
+        reset_display <= '1';
+        enable_display <= '1';
+        display_cmd <= "1100";
+      when s4 =>
+        reset_display <= '0';
+        enable_display <= '1';
+        display_cmd <= "1100";
+      when s5 =>
+        display_cmd <= "1010";
+        lockout_led <= '0';
+      when s5a =>
+        reset_open <= '1';
+        enable_open <= '1';
+        display_cmd <= "1010";
+      when s5b =>
+        reset_open <= '0';
+        enable_open <= '1';
+        display_cmd <= "1010";
+      when s5c =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s5d =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s5e =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s5f =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s5g =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s5h =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s5i =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s5j =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s5k =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s5l =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s5m =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s5n =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when s5o =>
+        reset_set <= '1';
+        enable_set <= '1';
+      when s5p =>
+        reset_set <= '0';
+        enable_set <= '1';
+      when sx =>
+        display_cmd <= "1100";
+        lockout_led <= '1';
+    end case;
   end process;
   current_state <= next_state;
 end architecture main_behavior;
