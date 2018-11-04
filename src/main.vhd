@@ -25,6 +25,9 @@ architecture main_behavior of main is
   signal current_state : State_Type;
   signal next_state : State_Type;
 
+  --This signal holds the number of attempts, 0-3
+  signal attempts : std_logic_vector (1 downto 0) := "00";
+
   -- These six signals make up the code for the lock
   -- code_five is most significant digit
   signal code_five : std_logic_vector(3 downto 0) := "0000";
@@ -42,6 +45,15 @@ architecture main_behavior of main is
   signal new_code_two : std_logic_vector(3 downto 0) := "0000";
   signal new_code_one : std_logic_vector(3 downto 0) := "0000";
   signal new_code_zero : std_logic_vector(3 downto 0) := "0000";
+
+  -- These six signal hold the users entry for the lock
+  -- code_entry_five is most significant digit
+  signal code_entry_five : std_logic_vector(3 downto 0) := "0000";
+  signal code_entry_four : std_logic_vector(3 downto 0) := "0000";
+  signal code_entry_three : std_logic_vector(3 downto 0) := "0000";
+  signal code_entry_two : std_logic_vector(3 downto 0) := "0000";
+  signal code_entry_one : std_logic_vector(3 downto 0) := "0000";
+  signal code_entry_zero : std_logic_vector(3 downto 0) := "0000";
 
 begin
   process(clk,reset)
@@ -122,8 +134,202 @@ begin
             code_one <= new_code_one;
             code_zero <= new_code_zero;
           elsif((cmd /= "1011") or (set_timeout = '1')) then
-            next_state <= s10;
+            next_state <= s1o;
           end if;
+        when s1o =>
+          next_state <= s1p;
+        when s1p =>
+          if((cmd /= "1011") or (display_timeout = '1')) then
+            next_state <= s1a;
+          end if;
+        when s2 =>
+          if(cmd /= "1011") then
+            code_entry_five <= cmd;
+            next_state <= s2a;
+          end if;
+        when s2a =>
+          next_state <= s2b;
+        when s2b =>
+          if(cmd /= "1011") then
+            code_entry_four <= cmd;
+            next_state <= s2d;
+          elsif(display_timeout = '1') then
+            next_state <= s2c;
+          end if;
+        when s2c =>
+          if(code_timeout = '1') then
+            next_state <= s2;
+          elsif(cmd /="1011") then
+            code_entry_four <= cmd;
+            next_state <= s2d;
+          end if;
+        when s2d =>
+          next_state <= s2e;
+        when s2e =>
+          if(cmd /= "1011") then
+            code_entry_three <= cmd;
+            next_state <= s2g;
+          elsif(display_timeout = '1') then
+            next_state <= s2f;
+          end if;
+        when s2f =>
+          if(code_timeout = '1') then
+            next_state <= s2;
+          elsif(cmd /="1011") then
+            code_entry_three <= cmd;
+            next_state <= s2d;
+          end if;
+        when s2g =>
+          next_state <= s2h;
+        when s2h =>
+          if(cmd /= "1011") then
+            code_entry_two <= cmd;
+            next_state <= s2j;
+          elsif(display_timeout = '1') then
+            next_state <= s2i;
+          end if;
+        when s2i =>
+          if(code_timeout = '1') then
+            next_state <= s2;
+          elsif(cmd /="1011") then
+            code_entry_two <= cmd;
+            next_state <= s2j;
+          end if;
+        when s2j =>
+          next_state <= s2k;
+        when s2k =>
+          if(cmd /= "1011") then
+            code_entry_one <= cmd;
+            next_state <= s2m;
+          elsif(display_timeout = '1') then
+            next_state <= s2l;
+          end if;
+        when s2l =>
+          if(code_timeout = '1') then
+            next_state <= s2;
+          elsif(cmd /="1011") then
+            code_entry_one <= cmd;
+            next_state <= s2m;
+          end if;
+        when s2m =>
+          next_state <= s2n;
+        when s2n =>
+          if(cmd /= "1011") then
+            code_entry_zero <= cmd;
+            next_state <= s2p;
+          elsif(display_timeout = '1') then
+            next_state <= s2o;
+          end if;
+        when s2o =>
+          if(code_timeout = '1') then
+            next_state <= s2;
+          elsif(cmd /="1011") then
+            code_entry_zero <= cmd;
+            next_state <= s2p;
+          end if;
+        when s2p =>
+          next_state <= s2q;
+        when s2q =>
+          if((code_entry_five /= code_five) or
+          (code_entry_four /= code_four) or
+          (code_entry_three /= code_three) or
+          (code_entry_two /= code_two) or
+          (code_entry_one /= code_one) or
+          (code_entry_zero /= code_zero)) then
+            if(attempts < "11") then
+              next_state <= s3;
+            else
+              next_state <= sX;
+            end if;
+          else
+            next_state <= s5;
+          end if;
+        when s3 =>
+          next_state <= s4;
+        when s4 =>
+          if(display_timeout = '1') then
+            next_state <= s2;
+          end if;
+        when s5 =>
+          next_state <= s5a;
+        when s5a =>
+          next_state <= s5b;
+        when s5b =>
+          if(open_timeout = '1') then
+            next_state <= s2;
+          elsif(cmd = "1010") then
+            next_state <= s5c;
+          end if;
+        when s5c =>
+          next_state <= s5d;
+        when s5d =>
+          if(cmd /= "1011") then
+            new_code_five <= cmd;
+            next_state <= s5e;
+          elsif((cmd = "1010") or (set_timeout = '1')) then
+            next_state <= s2;
+          end if;
+        when s5e =>
+          next_state <= s5f;
+        when s5f =>
+          if(cmd /= "1011") then
+            new_code_four <= cmd;
+            next_state <= s5g;
+          elsif((cmd = "1010") or (set_timeout = '1')) then
+            next_state <= s2;
+          end if;
+        when s5g =>
+          next_state <= s5h;
+        when s5h =>
+          if(cmd /= "1011") then
+            new_code_three <= cmd;
+            next_state <= s5i;
+          elsif((cmd = "1010") or (set_timeout = '1')) then
+            next_state <= s2;
+          end if;
+        when s5i =>
+          next_state <= s5j;
+        when s5j =>
+          if(cmd /= "1011") then
+            new_code_two <= cmd;
+            next_state <= s5k;
+          elsif((cmd = "1010") or (set_timeout = '1')) then
+            next_state <= s2;
+          end if;
+        when s5k =>
+          next_state <= s5l;
+        when s5l =>
+          if(cmd /= "1011") then
+            new_code_one <= cmd;
+            next_state <= s5m;
+          elsif((cmd = "1010") or (set_timeout = '1')) then
+            next_state <= s2;
+          end if;
+        when s5m =>
+          next_state <= s5n;
+        when s5n =>
+          if(cmd /= "1011") then
+            new_code_zero <= cmd;
+            next_state <= s5o;
+          elsif((cmd = "1010") or (set_timeout = '1')) then
+            next_state <= s2;
+          end if;
+        when s5o =>
+          next_state <= s5p;
+        when s5p =>
+          if(cmd = "1010") then
+            code_five <= new_code_five;
+            code_four <= new_code_four;
+            code_three <= new_code_three;
+            code_two <= new_code_two;
+            code_one <= new_code_one;
+            code_zero <= new_code_zero;
+            next_state <= s2;
+          elsif(set_timeout = '1') then
+            next_state <= s2;
+          end if;
+        when sX =>
+          next_state <= sX;
       end case;
     end if;
   end process;
