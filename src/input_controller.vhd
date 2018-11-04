@@ -8,14 +8,16 @@ entity input_controller is
   port(
     clk, ps2_clk, ps2_data : in std_logic;
     ps2_code_new : out std_logic;
-    ps2_code     : out std_logic_vector(7 downto 0));
+    ps2_code     : out std_logic_vector(3 downto 0));
 end input_controller;
 
 architecture input_controller_arch OF input_controller IS
-  signal sync_ffs     : STD_LOGIC_VECTOR(1 DOWNTO 0);
-  signal ps2_clk_int, ps2_data_int, error : STD_LOGIC;
-  signal ps2_word     : STD_LOGIC_VECTOR(10 DOWNTO 0);
-  SIGNAL count_idle   : INTEGER RANGE 0 TO clk_freq/18_000;
+  signal sync_ffs     : std_logic_vector(1 downto 0);
+  signal ps2_clk_int, ps2_data_int, error : std_logic;
+  signal ps2_word     : std_logic_vector(10 downto 0);
+  signal count_idle   : integer range 0 to clk_freq/18_000;
+  signal ps2_code_sig : std_logic_vector(3 downto 0) := "1011";
+  signal ps2_code_new_sig : std_logic;
 
   component debouncer IS
     generic(
@@ -62,14 +64,56 @@ begin
           count_idle <= count_idle + 1;
       end if;
 
-      if(count_idle = clk_freq/18_000 and error = '0') then
-        ps2_code_new <= '1';
-        ps2_code <= ps2_word(8 downto 1);
+      if(ps2_code_new_sig = '1') then
+        ps2_code_new_sig <= '0';
+        ps2_code_sig <= "1011";
+      elsif(count_idle = clk_freq/18_000 and error = '0') then
+
+        case ps2_word(8 downto 1) is
+            when "01110000" =>
+                ps2_code_sig <= "0000";
+                ps2_code_new_sig <= '1';
+            when "01101001" =>
+                ps2_code_sig <= "0001";
+                ps2_code_new_sig <= '1';
+            when "01110010" =>
+                ps2_code_sig <= "0010";
+                ps2_code_new_sig <= '1';
+            when "01111010" =>
+                ps2_code_sig <= "0011";
+                ps2_code_new_sig <= '1';
+            when "01101011" =>
+                ps2_code_sig <= "0100";
+                ps2_code_new_sig <= '1';
+            when "01110011" =>
+                ps2_code_sig <= "0101";
+                ps2_code_new_sig <= '1';
+            when "01110100" =>
+                ps2_code_sig <= "0110";
+                ps2_code_new_sig <= '1';
+            when "01101100" =>
+                ps2_code_sig <= "0111";
+                ps2_code_new_sig <= '1';
+            when "01110101" =>
+                ps2_code_sig <= "1000";
+                ps2_code_new_sig <= '1';
+            when "01111101" =>
+                ps2_code_sig <= "1001";
+                ps2_code_new_sig <= '1';
+            when "01111001" =>
+                ps2_code_sig <= "1010";
+                ps2_code_new_sig <= '1';
+            when others =>
+                ps2_code_sig <= "1011";
+                ps2_code_new_sig <= '0';
+        end case;
       else
-        ps2_code_new <= '0';
+        ps2_code_new_sig <= '0';
       end if;
 
     end if;
   end process;
 
+  ps2_code <= ps2_code_sig;
+  ps2_code_new <= ps2_code_new_sig;
 end input_controller_arch;
