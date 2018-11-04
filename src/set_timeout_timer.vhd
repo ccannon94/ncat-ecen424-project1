@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 entity set_timeout_timer is
   port(enable, reset, one_hz_clk : in std_logic; done : out std_logic);
@@ -18,7 +19,7 @@ begin
 	    current_count <= "00000";
 	    done <= '0';
         elsif(one_hz_clk'event and one_hz_clk = '1' and enable = '1') then
-            if(current_count <= "00110") then
+            if(current_count < "00110") then
                 current_count <= std_logic_vector(unsigned(current_count) + 1);
                 done <= '0';
             else
