@@ -7,14 +7,13 @@ entity main is
     -- values for cmd
     -- 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, +, nothing
     cmd : in std_logic_vector(3 downto 0);
-    code_timeout, set_timeout, open_timeout, display_timeout clk : in std_logic;
+    code_timeout, set_timeout, open_timeout, display_timeout : in std_logic;
     enable_code, reset_code, enable_set, reset_set, enable_open, reset_open, enable_display, reset_display : out std_logic;
     -- values for display_cmd
     -- 0001 : '0000'
     -- 0010 : 'Clr'
     -- 0100 : "Err"
-    display_cmd : out std_logic_vector(3 downto 0);
-    one_hz_clk, four_hz_clk : out std_logic);
+    display_cmd : out std_logic_vector(3 downto 0));
 end entity main;
 
 architecture main_behavior of main is
@@ -50,7 +49,7 @@ begin
     if(reset = '1') then
       current_state <= s0;
     elsif(clk'event and clk = '1') then
-      case state is
+      case current_state is
         when s0 =>
           if(cmd = "1010") then
             current_state <= s1;
