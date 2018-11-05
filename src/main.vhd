@@ -15,6 +15,7 @@ entity main is
     -- 1010 : '0000'
     -- 1011 : 'Clr'
     -- 1100 : "Err"
+    -- 1101 : lockout
     -- 1111 : display off
     display_cmd : out std_logic_vector(3 downto 0));
 end entity main;

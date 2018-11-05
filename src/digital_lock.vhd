@@ -1,5 +1,5 @@
-use IEEE;
-library IEEE.STD_LOGIC_1164.ALL;
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
 
 entity digital_lock is
   port(ps2_data, ps2_clk, clk, reset : in std_logic;
@@ -15,11 +15,11 @@ architecture digital_lock_arch of digital_lock is
 
   -- Signals for input controller
   signal ps2_code_new : std_logic;
-  signal ps2_code : out std_logic_vector(3 downto 0);
+  signal ps2_code : std_logic_vector(3 downto 0);
 
   -- Signals for output controller
   signal display_cmd : std_logic_vector(3 downto 0);
-  signal seven_seg_sig : std_logic_vector(3 downto 0);
+  signal seven_seg_sig : std_logic_vector(11 downto 0);
   signal lockout_led_sig : std_logic;
 
   -- Signals for code timeout timer
@@ -53,8 +53,8 @@ architecture digital_lock_arch of digital_lock is
   component output_controller is
     port(display : in std_logic_vector(3 downto 0);
       clk : in std_logic;
-      lockout_led : out std_logic
-      seven_seg : std_logic_vector(11 downto 0));
+      lockout_led : out std_logic;
+      seven_seg : out std_logic_vector(11 downto 0));
   end component output_controller;
 
   component code_timeout_timer is
@@ -95,7 +95,7 @@ begin
   display_timer : display_timeout_timer port map(enable_display, reset_display, slow_clk, display_timeout);
   open_timer : open_timeout_timer port map(enable_open, reset_open, slow_clk, open_timeout);
   set_timer : set_timeout_timer port map(enable_set, reset_set, slow_clk, set_timeout);
-  main : main port map(clk, reset, ps2_code, code_timeout, set_timeout, open_timeout, display_timeout, enable_code, reset_code, enable_set, reset_set, enable_open, reset_open, enable_display, reset_display, lockout_led, display_cmd);
+  main_fsm : main port map(clk, reset, ps2_code, code_timeout, set_timeout, open_timeout, display_timeout, enable_code, reset_code, enable_set, reset_set, enable_open, reset_open, enable_display, reset_display, lockout_led, display_cmd);
 
   lockout_led <= lockout_led_sig;
   seven_seg_data <= seven_seg_sig;
