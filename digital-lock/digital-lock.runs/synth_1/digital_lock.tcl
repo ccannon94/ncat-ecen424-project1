@@ -16,6 +16,7 @@ proc create_report { reportName command } {
     send_msg_id runtcl-5 warning "$msg"
   }
 }
+set_param xicom.use_bs_reader 1
 create_project -in_memory -part xc7a35tcpg236-1
 
 set_param project.singleFileAddWarning.threshold 0
@@ -31,9 +32,7 @@ set_property ip_cache_permissions {read write} [current_project]
 read_vhdl -library xil_defaultlib {
   C:/Users/Chris/Documents/development/ncat-ecen424-project1/src/clock_divider.vhd
   C:/Users/Chris/Documents/development/ncat-ecen424-project1/src/code_timeout_timer.vhd
-  C:/Users/Chris/Documents/development/ncat-ecen424-project1/src/debouncer.vhd
   C:/Users/Chris/Documents/development/ncat-ecen424-project1/src/display_timeout_timer.vhd
-  C:/Users/Chris/Documents/development/ncat-ecen424-project1/src/input_controller.vhd
   C:/Users/Chris/Documents/development/ncat-ecen424-project1/src/main.vhd
   C:/Users/Chris/Documents/development/ncat-ecen424-project1/src/open_timeout_timer.vhd
   C:/Users/Chris/Documents/development/ncat-ecen424-project1/src/output_controller.vhd

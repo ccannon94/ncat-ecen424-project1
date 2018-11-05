@@ -95,7 +95,7 @@ begin
   display_timer : display_timeout_timer port map(enable_display, reset_display, slow_clk, display_timeout);
   open_timer : open_timeout_timer port map(enable_open, reset_open, slow_clk, open_timeout);
   set_timer : set_timeout_timer port map(enable_set, reset_set, slow_clk, set_timeout);
-  main_fsm : main port map(clk, reset, ps2_code, code_timeout, set_timeout, open_timeout, display_timeout, enable_code, reset_code, enable_set, reset_set, enable_open, reset_open, enable_display, reset_display, lockout_led, display_cmd);
+  main_fsm : main port map(med_clk, reset, ps2_code, code_timeout, set_timeout, open_timeout, display_timeout, enable_code, reset_code, enable_set, reset_set, enable_open, reset_open, enable_display, reset_display, lockout_led, display_cmd);
 
   lockout_led <= lockout_led_sig;
   seven_seg_data <= seven_seg_sig;
