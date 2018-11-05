@@ -15,6 +15,7 @@ entity main is
     -- 1010 : '0000'
     -- 1011 : 'Clr'
     -- 1100 : "Err"
+    -- 1101 : lockout
     -- 1111 : display off
     display_cmd : out std_logic_vector(3 downto 0));
 end entity main;
@@ -565,7 +566,7 @@ begin
         reset_set <= '0';
         enable_set <= '1';
       when sx =>
-        display_cmd <= "1100";
+        display_cmd <= "1101";
         lockout_led <= '1';
     end case;
   end process;
