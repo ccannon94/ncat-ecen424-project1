@@ -566,7 +566,7 @@ begin
         reset_set <= '0';
         enable_set <= '1';
       when sx =>
-        display_cmd <= "1100";
+        display_cmd <= "1101";
         lockout_led <= '1';
     end case;
   end process;
