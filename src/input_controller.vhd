@@ -1,8 +1,11 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
- 
+
 entity input_controller is
+  generic(
+    clk_freq : integer := 50_000_000;
+    debounce_counter_size : integer := 8);
   port(
     clk          : in  std_logic;                     --system clock
     ps2_clk      : in  std_logic;                     --clock signal from PS/2 keyboard
@@ -12,8 +15,6 @@ entity input_controller is
 end input_controller;
 
 architecture input_controller_arch of input_controller is
-  signal clk_freq : integer := 50_000_000;
-  signal debounce_counter_size : integer := 8;
   signal sync_ffs     : std_logic_vector(1 downto 0);       --synchronizer flip-flops for PS/2 signals
   signal ps2_clk_int  : std_logic;                          --debounced clock signal from PS/2 keyboard
   signal ps2_data_int : std_logic;                          --debounced data signal from PS/2 keyboard
@@ -22,7 +23,7 @@ architecture input_controller_arch of input_controller is
   signal count_idle   : integer range 0 to clk_freq/18_000; --counter to determine PS/2 is idle
   signal ps2_code_sig : std_logic_vector(7 downto 0);
   signal ps2_code_timeout : std_logic_vector(15 downto 0) := "0000000000000000";
-  
+
 
   --declare debounce component for debouncing PS2 input signals
   component debouncer is
