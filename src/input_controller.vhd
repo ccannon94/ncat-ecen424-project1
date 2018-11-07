@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
-
+ 
 entity input_controller is
   generic(
     clk_freq : integer := 50_000_000;
@@ -22,8 +22,9 @@ architecture input_controller_arch of input_controller is
   signal error        : std_logic;                          --validate parity, start, and stop bits
   signal count_idle   : integer range 0 to clk_freq/18_000; --counter to determine PS/2 is idle
   signal ps2_code_sig : std_logic_vector(7 downto 0);
-  signal ps2_code_timeout : std_logic_vector(15 downto 0) := "0000000000000000";
-
+  signal ps2_code_timeout : std_logic_vector(27 downto 0) := "0000000000000000000000000000";
+  signal ps2_code_timeout_comparator : std_logic_vector (1 downto 0);
+  
 
   --declare debounce component for debouncing PS2 input signals
   component debouncer is
@@ -56,7 +57,9 @@ begin
   --input PS2 data
   process(ps2_clk_int)
   begin
-    IF(ps2_clk_int'event and ps2_clk_int = '0') then    --falling edge of PS2 clock
+    if(ps2_code_timeout_comparator >= "01") then
+        ps2_word <= "00000000000";
+    elsif(ps2_clk_int'event and ps2_clk_int = '0') then    --falling edge of PS2 clock
       ps2_word <= ps2_data_int & ps2_word(10 downto 1);   --shift in PS2 data bit
     end if;
   end process;
@@ -89,7 +92,7 @@ begin
 
   process(ps2_code_sig, ps2_code_timeout)
   begin
-    if(ps2_code_timeout > "1000000000000000") then
+    if(ps2_code_timeout_comparator >= "01") then
       ps2_code <= "1011";
     else
       case ps2_word(8 downto 1) is
@@ -126,8 +129,10 @@ begin
     if(clk'event and clk = '1') then
       ps2_code_timeout <= std_logic_vector(unsigned(ps2_code_timeout) + 1);
     end if;
-    if(ps2_code_timeout > "1000000010000000") then
-      ps2_code_timeout <= "0000000000000000";
+    if(ps2_code_timeout_comparator >= "10") then
+      ps2_code_timeout <= "0000000000000000000000000000";
     end if;
   end process;
+  
+  ps2_code_timeout_comparator <= ps2_code_timeout(27 downto 26);
 end architecture input_controller_arch;
