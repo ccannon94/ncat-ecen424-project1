@@ -1,0 +1,83 @@
+
+*** Running vivado
+    with args -log digital_lock.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source digital_lock.tcl -notrace
+
+
+****** Vivado v2017.4 (64-bit)
+  **** SW Build 2086221 on Fri Dec 15 20:55:39 MST 2017
+  **** IP Build 2085800 on Fri Dec 15 22:25:07 MST 2017
+    ** Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
+
+source digital_lock.tcl -notrace
+Command: link_design -top digital_lock -part xc7a35tcpg236-1
+Design is defaulting to srcset: sources_1
+Design is defaulting to constrset: constrs_1
+INFO: [Netlist 29-17] Analyzing 23 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2017.4
+INFO: [Device 21-403] Loading part xc7a35tcpg236-1
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc]
+WARNING: [Vivado 12-584] No ports matched 'state_leds[5]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:36]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:36]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'state_leds[4]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:37]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:37]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'state_leds[3]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:38]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:38]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'state_leds[2]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:39]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:39]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'state_leds[1]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:40]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:40]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'state_leds[0]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:41]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:41]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'state_leds[0]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:42]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:42]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'state_leds[1]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:43]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:43]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'state_leds[2]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:44]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:44]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'state_leds[3]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:45]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:45]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'state_leds[4]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:46]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:46]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'state_leds[5]'. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:47]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc:47]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+Finished Parsing XDC File [C:/Users/Chris/Documents/development/ncat-ecen424-project1/digital-lock/digital-lock.srcs/constrs_1/new/const.xdc]
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+7 Infos, 12 Warnings, 12 Critical Warnings and 0 Errors encountered.
+link_design completed successfully
+link_design: Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 545.594 ; gain = 306.668
+Command: opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7a35t'
+Running DRC as a precondition to command opt_design
+
+Starting DRC Task
+INFO: [DRC 23-27] Running DRC with 2 threads
+ERROR: [DRC MDRV-1] Multiple Driver Nets: Net main_fsm/lockout_led_OBUF has multiple drivers: main_fsm/lockout_led_OBUF_inst_i_1/O, and main_fsm/lockout_led_reg/Q.
+INFO: [Project 1-461] DRC finished with 1 Errors
+INFO: [Project 1-462] Please refer to the DRC report (report_drc) for more information.
+ERROR: [Vivado_Tcl 4-78] Error(s) found during DRC. Opt_design not run.
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 559.055 ; gain = 13.461
+INFO: [Common 17-83] Releasing license: Implementation
+12 Infos, 12 Warnings, 12 Critical Warnings and 2 Errors encountered.
+opt_design failed
+ERROR: [Common 17-39] 'opt_design' failed due to earlier errors.
+
+INFO: [Common 17-206] Exiting Vivado at Wed Nov  7 05:13:04 2018...

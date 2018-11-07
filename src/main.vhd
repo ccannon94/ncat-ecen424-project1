@@ -1,9 +1,10 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 entity main is
   port (
-    clk, reset : in std_logic;
+    sys_clk, clk, reset : in std_logic;
     -- values for cmd
     -- 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, +, nothing
     cmd : in std_logic_vector(3 downto 0);
@@ -17,8 +18,7 @@ entity main is
     -- 1100 : "Err"
     -- 1101 : lockout
     -- 1111 : display off
-    display_cmd : out std_logic_vector(3 downto 0);
-    state_output : out std_logic_vector(5 downto 0));
+    display_cmd : out std_logic_vector(3 downto 0));
 end entity main;
 
 architecture main_behavior of main is
@@ -27,7 +27,7 @@ architecture main_behavior of main is
     s2g, s2h, s2i, s2j, s2k, s2l, s2m, s2n, s2o, s2p, s2q, s3, s4, s5,
     s5a, s5b, s5c, s5d, s5e, s5f, s5g, s5h, s5i, s5j, s5k, s5l, s5m, s5n,
     s5o, s5p, sX);
-  signal current_state : State_Type;
+  signal current_state : State_Type := s0;
   signal next_state : State_Type;
 
   --This signal holds the number of attempts, 0-3
@@ -61,15 +61,18 @@ architecture main_behavior of main is
   signal code_entry_zero : std_logic_vector(3 downto 0) := "0000";
 
 begin
+
   process(clk,reset)
   begin
     if(reset = '1') then
-      current_state <= s0;
+      next_state <= s0;
     elsif(clk'event and clk = '1') then
       case current_state is
         when s0 =>
           if(cmd = "1010") then
-            current_state <= s1;
+            next_state <= s1;
+          else
+            next_state <= s0;
           end if;
         when s1 =>
           next_state <= s1a;
@@ -81,6 +84,8 @@ begin
             new_code_five <= cmd;
           elsif((cmd = "1010") or (set_timeout = '1')) then
             next_state <= s1o;
+          else
+            next_state <= s1b;
           end if;
         when s1c =>
           next_state <= s1d;
@@ -90,6 +95,8 @@ begin
             new_code_four <= cmd;
           elsif((cmd = "1010") or (set_timeout = '1')) then
             next_state <= s1o;
+          else
+            next_state <= s1d;
           end if;
         when s1e =>
           next_state <= s1f;
@@ -99,6 +106,8 @@ begin
             new_code_three <= cmd;
           elsif((cmd = "1010") or (set_timeout = '1')) then
             next_state <= s1o;
+          else
+            next_state <= s1f;
           end if;
         when s1g =>
           next_state <= s1h;
@@ -108,6 +117,8 @@ begin
             new_code_two <= cmd;
           elsif((cmd = "1010") or (set_timeout = '1')) then
             next_state <= s1o;
+          else
+            next_state <= s2h;
           end if;
         when s1i =>
           next_state <= s1j;
@@ -126,6 +137,8 @@ begin
             new_code_zero <= cmd;
           elsif((cmd = "1010") or (set_timeout = '1')) then
             next_state <= s1o;
+          else
+            next_state <= s1l;
           end if;
         when s1m =>
           next_state <= s1n;
@@ -140,17 +153,23 @@ begin
             code_zero <= new_code_zero;
           elsif((cmd /= "1011") or (set_timeout = '1')) then
             next_state <= s1o;
+          else
+            next_state <= s1n;
           end if;
         when s1o =>
           next_state <= s1p;
         when s1p =>
           if((cmd /= "1011") or (display_timeout = '1')) then
             next_state <= s1a;
+          else
+            next_state <= s1p;
           end if;
         when s2 =>
           if(cmd /= "1011") then
             code_entry_five <= cmd;
             next_state <= s2a;
+          else
+            next_state <= s2;
           end if;
         when s2a =>
           next_state <= s2b;
@@ -160,6 +179,8 @@ begin
             next_state <= s2d;
           elsif(display_timeout = '1') then
             next_state <= s2c;
+          else
+            next_state <= s2b;
           end if;
         when s2c =>
           if(code_timeout = '1') then
@@ -167,6 +188,8 @@ begin
           elsif(cmd /="1011") then
             code_entry_four <= cmd;
             next_state <= s2d;
+          else
+            next_state <= s2c;
           end if;
         when s2d =>
           next_state <= s2e;
@@ -176,6 +199,8 @@ begin
             next_state <= s2g;
           elsif(display_timeout = '1') then
             next_state <= s2f;
+          else
+            next_state <= s2e;
           end if;
         when s2f =>
           if(code_timeout = '1') then
@@ -183,6 +208,8 @@ begin
           elsif(cmd /="1011") then
             code_entry_three <= cmd;
             next_state <= s2d;
+          else
+            next_state <= s2f;
           end if;
         when s2g =>
           next_state <= s2h;
@@ -192,6 +219,8 @@ begin
             next_state <= s2j;
           elsif(display_timeout = '1') then
             next_state <= s2i;
+          else
+            next_state <= s2h;
           end if;
         when s2i =>
           if(code_timeout = '1') then
@@ -199,6 +228,8 @@ begin
           elsif(cmd /="1011") then
             code_entry_two <= cmd;
             next_state <= s2j;
+          else
+            next_state <= s2i;
           end if;
         when s2j =>
           next_state <= s2k;
@@ -208,6 +239,8 @@ begin
             next_state <= s2m;
           elsif(display_timeout = '1') then
             next_state <= s2l;
+          else
+            next_state <= s2k;
           end if;
         when s2l =>
           if(code_timeout = '1') then
@@ -215,6 +248,8 @@ begin
           elsif(cmd /="1011") then
             code_entry_one <= cmd;
             next_state <= s2m;
+          else
+            next_state <= s2l;
           end if;
         when s2m =>
           next_state <= s2n;
@@ -224,6 +259,8 @@ begin
             next_state <= s2p;
           elsif(display_timeout = '1') then
             next_state <= s2o;
+          else
+            next_state <= s2n;
           end if;
         when s2o =>
           if(code_timeout = '1') then
@@ -231,6 +268,8 @@ begin
           elsif(cmd /="1011") then
             code_entry_zero <= cmd;
             next_state <= s2p;
+          else
+            next_state <= s2o;
           end if;
         when s2p =>
           next_state <= s2q;
@@ -243,6 +282,7 @@ begin
           (code_entry_zero /= code_zero)) then
             if(attempts < "11") then
               next_state <= s3;
+              attempts <= std_logic_vector(unsigned(attempts) + 1);
             else
               next_state <= sX;
             end if;
@@ -264,6 +304,8 @@ begin
             next_state <= s2;
           elsif(cmd = "1010") then
             next_state <= s5c;
+          else
+            next_state <= s5b;
           end if;
         when s5c =>
           next_state <= s5d;
@@ -273,6 +315,8 @@ begin
             next_state <= s5e;
           elsif((cmd = "1010") or (set_timeout = '1')) then
             next_state <= s2;
+          else
+            next_state <= s5d;
           end if;
         when s5e =>
           next_state <= s5f;
@@ -282,6 +326,8 @@ begin
             next_state <= s5g;
           elsif((cmd = "1010") or (set_timeout = '1')) then
             next_state <= s2;
+          else
+            next_state <= s5f;
           end if;
         when s5g =>
           next_state <= s5h;
@@ -291,6 +337,8 @@ begin
             next_state <= s5i;
           elsif((cmd = "1010") or (set_timeout = '1')) then
             next_state <= s2;
+          else 
+            next_state <= s5h;
           end if;
         when s5i =>
           next_state <= s5j;
@@ -300,6 +348,8 @@ begin
             next_state <= s5k;
           elsif((cmd = "1010") or (set_timeout = '1')) then
             next_state <= s2;
+          else
+            next_state <= s5j;
           end if;
         when s5k =>
           next_state <= s5l;
@@ -309,6 +359,8 @@ begin
             next_state <= s5m;
           elsif((cmd = "1010") or (set_timeout = '1')) then
             next_state <= s2;
+          else
+            next_state <= s5l;
           end if;
         when s5m =>
           next_state <= s5n;
@@ -318,6 +370,8 @@ begin
             next_state <= s5o;
           elsif((cmd = "1010") or (set_timeout = '1')) then
             next_state <= s2;
+          else
+            next_state <= s5n;
           end if;
         when s5o =>
           next_state <= s5p;
@@ -332,6 +386,8 @@ begin
             next_state <= s2;
           elsif(set_timeout = '1') then
             next_state <= s2;
+          else
+            next_state <= s5p;
           end if;
         when sX =>
           next_state <= sX;
@@ -344,287 +400,231 @@ begin
       when s0 =>
         display_cmd <= "1111";
         lockout_led <= '0';
-        state_output <= "000000"
       when s1 =>
         display_cmd <= "1111";
         lockout_led <= '0';
-        state_output <= "000001";
       when s1a =>
         display_cmd <= "1111";
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "000001";
       when s1b =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "000001";
       when s1c =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "000001";
       when s1d =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "000001";
       when s1e =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "000001";
       when s1f =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "000001";
       when s1g =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "000001";
       when s1h =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "000001";
       when s1i =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "000001";
       when s1j =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "000001";
       when s1k =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "000001";
       when s1l =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "000001";
       when s1m =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "000001";
       when s1n =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "000001";
       when s1o =>
         enable_set <= '0';
         reset_display <= '1';
         enable_display <= '1';
         display_cmd <= "1011";
-        state_output <= "000001";
       when s1p =>
         reset_display <= '0';
         enable_display <= '1';
         display_cmd <= "1011";
-        state_output <= "000001";
       when s2 =>
         enable_set <= '0';
         enable_open <= '0';
         enable_display <= '0';
         display_cmd <= "1111";
         lockout_led <= '0';
-        state_output <= "000010";
       when s2a =>
         reset_code <= '1';
         enable_code <= '1';
         reset_display <= '1';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2b =>
         reset_code <= '0';
         enable_code <= '1';
         reset_display <= '0';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2c =>
         reset_code <= '0';
         enable_code <= '1';
         reset_display <= '0';
         enable_display <= '0';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2d =>
         reset_code <= '1';
         enable_code <= '1';
         reset_display <= '1';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2e =>
         reset_code <= '0';
         enable_code <= '1';
         reset_display <= '0';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2f =>
         reset_code <= '0';
         enable_code <= '1';
         reset_display <= '0';
         enable_display <= '0';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2g =>
         reset_code <= '1';
         enable_code <= '1';
         reset_display <= '1';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2h =>
         reset_code <= '0';
         enable_code <= '1';
         reset_display <= '0';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2i =>
         reset_code <= '0';
         enable_code <= '1';
         reset_display <= '0';
         enable_display <= '0';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2j =>
         reset_code <= '1';
         enable_code <= '1';
         reset_display <= '1';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2k =>
         reset_code <= '0';
         enable_code <= '1';
         reset_display <= '0';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2l =>
         reset_code <= '0';
         enable_code <= '1';
         reset_display <= '0';
         enable_display <= '0';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2m =>
         reset_code <= '1';
         enable_code <= '1';
         reset_display <= '1';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2n =>
         reset_code <= '0';
         enable_code <= '1';
         reset_display <= '0';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2o =>
         reset_code <= '0';
         enable_code <= '1';
         reset_display <= '0';
         enable_display <= '0';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2p =>
         reset_code <= '0';
         enable_code <= '0';
         reset_display <= '1';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s2q =>
         reset_display <= '0';
         enable_display <= '1';
         display_cmd <= cmd;
-        state_output <= "000010";
       when s3 =>
         reset_display <= '1';
         enable_display <= '1';
         display_cmd <= "1100";
-        state_output <= "000100";
       when s4 =>
         reset_display <= '0';
         enable_display <= '1';
         display_cmd <= "1100";
-        state_output <= "001000";
       when s5 =>
         display_cmd <= "1010";
         lockout_led <= '0';
-        state_output <= "010000";
       when s5a =>
         reset_open <= '1';
         enable_open <= '1';
         display_cmd <= "1010";
-        state_output <= "010000";
       when s5b =>
         reset_open <= '0';
         enable_open <= '1';
         display_cmd <= "1010";
-        state_output <= "010000";
       when s5c =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "010000";
       when s5d =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "010000";
       when s5e =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "010000";
       when s5f =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "010000";
       when s5g =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "010000";
       when s5h =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "010000";
       when s5i =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "010000";
       when s5j =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "010000";
       when s5k =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "010000";
       when s5l =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "010000";
       when s5m =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "010000";
       when s5n =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "010000";
       when s5o =>
         reset_set <= '1';
         enable_set <= '1';
-        state_output <= "010000";
       when s5p =>
         reset_set <= '0';
         enable_set <= '1';
-        state_output <= "010000";
       when sx =>
         display_cmd <= "1101";
         lockout_led <= '1';
-        state_output <= "100000";
     end case;
   end process;
   current_state <= next_state;
